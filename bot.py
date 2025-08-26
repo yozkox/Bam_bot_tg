@@ -8,8 +8,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
-from telegram.ext import Updater
-
 
 # ------------------- Настройки -------------------
 API_TOKEN = os.getenv("API_TOKEN")
