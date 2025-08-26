@@ -8,6 +8,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
+from telegram.ext import Updater
+
 
 # ------------------- Настройки -------------------
 API_TOKEN = os.getenv("API_TOKEN")
@@ -20,7 +22,7 @@ logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
-
+PORT = int(os.environ.get("PORT", 5000))
 # ------------------- FSM состояния -------------------
 class UploadStates(StatesGroup):
     waiting_video = State()
