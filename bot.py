@@ -7,12 +7,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
+import os
 
 # ------------------- Настройки -------------------
-API_TOKEN = "8322452158:AAEozxy0qOBLILevYtTWQ4aER7LFA5_7s0Q"
-
-CHANNEL_RELEASE_ID = -1003039256392
-CHANNEL_RESERVE_ID = -1003008464747
+API_TOKEN = os.getenv("API_TOKEN")
+CHANNEL_RELEASE_ID = int(os.getenv("CHANNEL_RELEASE_ID"))
+CHANNEL_RESERVE_ID = int(os.getenv("CHANNEL_RESERVE_ID"))
 
 TEMPLATES_FILE = "templates.json"
 
