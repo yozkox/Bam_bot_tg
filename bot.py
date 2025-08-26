@@ -9,8 +9,6 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
 import os
 from aiogram.types import BotCommand
-import asyncio
-from aiohttp import web
 
 # ------------------- Настройки -------------------
 API_TOKEN = os.getenv("API_TOKEN")
@@ -43,12 +41,6 @@ async def handle(request):
 
 app = web.Application()
 app.router.add_get("/", handle)
-
-async def run_webserver():
-    runner = web.AppRunner(app)
-    await runner.setup()
-    site = web.TCPSite(runner, "0.0.0.0", int(os.getenv("PORT", 10000)))
-    await site.start()
 
 async def main():
     await run_webserver()
