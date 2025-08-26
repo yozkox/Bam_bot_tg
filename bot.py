@@ -9,6 +9,8 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
 import os
 from aiogram.types import BotCommand
+import asyncio
+from aiohttp import web
 
 # ------------------- Настройки -------------------
 API_TOKEN = os.getenv("API_TOKEN")
@@ -35,7 +37,22 @@ async def show_help(message: Message):
         "Бот автоматично відправить серію в канали."
     )
     await message.answer(help_text)
+    
+async def handle(request):
+    return web.Response(text="Bot is running!")
 
+app = web.Application()
+app.router.add_get("/", handle)
+
+async def run_webserver():
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", int(os.getenv("PORT", 10000)))
+    await site.start()
+
+async def main():
+    await run_webserver()
+    await dp.start_polling(bot)
 
 # ------------------- FSM состояния -------------------
 class UploadStates(StatesGroup):
