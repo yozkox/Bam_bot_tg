@@ -8,6 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
 import os
+from aiogram.types import BotCommand
 
 # ------------------- Настройки -------------------
 API_TOKEN = os.getenv("API_TOKEN")
@@ -20,6 +21,21 @@ logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
+
+@dp.message(Command("help"))
+async def show_help(message: Message):
+    help_text = (
+        "Доступні команди бота:\n\n"
+        "/templates - Меню шаблонів (створити або змінити шаблон)\n"
+        "/help - Показати цей список команд\n\n"
+        "Щоб відправити відео:\n"
+        "1. Надішліть відео боту\n"
+        "2. Виберіть серіал\n"
+        "3. Введіть номер серії\n"
+        "Бот автоматично відправить серію в канали."
+    )
+    await message.answer(help_text)
+
 
 # ------------------- FSM состояния -------------------
 class UploadStates(StatesGroup):
@@ -169,9 +185,19 @@ async def get_episode(message: Message, state: FSMContext):
 
     await message.answer(f"✅ Серія {episode_number} серіалу '{series_name}' відправлена в канали")
     await state.clear()
-
+    
+async def set_commands():
+    commands = [
+        BotCommand(command="/templates", description="Меню шаблонів"),
+        BotCommand(command="/help", description="Список команд")
+    ]
+    await bot.set_my_commands(commands)
 # ------------------- Запуск бота -------------------
 async def main():
+    # Устанавливаем команды Telegram
+    await set_commands()
+
+    # Запускаем polling
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
