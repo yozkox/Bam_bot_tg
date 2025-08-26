@@ -35,16 +35,6 @@ async def show_help(message: Message):
         "Бот автоматично відправить серію в канали."
     )
     await message.answer(help_text)
-    
-async def handle(request):
-    return web.Response(text="Bot is running!")
-
-app = web.Application()
-app.router.add_get("/", handle)
-
-async def main():
-    await run_webserver()
-    await dp.start_polling(bot)
 
 # ------------------- FSM состояния -------------------
 class UploadStates(StatesGroup):
